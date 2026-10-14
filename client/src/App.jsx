@@ -7,6 +7,7 @@ import { ToastProvider } from './context/ToastContext';
 // Layout
 import Layout from './components/Layout/Layout';
 import LoadingSpinner from './components/ui/LoadingSpinner';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 
 // Pages
 import Login from './pages/Login';
@@ -69,9 +70,10 @@ function PublicRoute({ children }) {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <ToastProvider>
-        <AuthProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
           <Routes>
             {/* Public Auth Route */}
             <Route
@@ -152,5 +154,6 @@ export default function App() {
         </AuthProvider>
       </ToastProvider>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }

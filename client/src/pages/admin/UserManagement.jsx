@@ -54,7 +54,7 @@ export default function UserManagement() {
     try {
       const [usersRes, shopsRes] = await Promise.all([
         api.get('/admin/users').catch(async () => await api.get('/users').catch(() => [])),
-        api.get('/shops').catch(() => []),
+        api.get('/admin/shops').catch(async () => await api.get('/shops').catch(() => [])),
       ]);
 
       const userList = usersRes?.data || usersRes?.users || (Array.isArray(usersRes) ? usersRes : []);

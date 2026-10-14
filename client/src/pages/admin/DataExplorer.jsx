@@ -46,12 +46,11 @@ export default function DataExplorer() {
     setLoading(true);
     setCurrentPage(1);
     try {
-      const res = await api.get(`/admin/data-explorer?table=${selectedTable}`).catch(async () => {
-        // Fallback directly to the resource endpoint if /admin/data-explorer is not implemented yet
-        return await api.get(`/${selectedTable}`).catch(() => []);
+      const res = await api.get(`/admin/data-explorer/${selectedTable}`).catch(async () => {
+        return await api.get(`/admin/data-explorer?table=${selectedTable}`).catch(() => []);
       });
 
-      const list = res?.data || res?.records || (Array.isArray(res) ? res : []);
+      const list = res?.records || res?.data || (Array.isArray(res) ? res : []);
       setData(list);
     } catch (err) {
       toastError(err.message || 'Failed to fetch table records');
