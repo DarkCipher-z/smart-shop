@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  smartshop:
+    build: .
+    container_name: smartshop-app
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - JWT_SECRET=smartshop_jwt_super_secret_production_key_2026
+      - DATABASE_PATH=/app/data/smartshop.db
+      - INITIAL_SEED_PASSWORD=SmartShop@2026
+    volumes:
+      - smartshop-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  smartshop-data:
