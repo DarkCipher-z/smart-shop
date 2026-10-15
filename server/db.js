@@ -1,5 +1,15 @@
 // server/db.js
-const { DatabaseSync } = require('node:sqlite');
+let NodeSqliteDriver = null;
+let BetterSqliteDriver = null;
+
+try {
+  NodeSqliteDriver = require('node:sqlite').DatabaseSync;
+} catch (e) {}
+
+try {
+  BetterSqliteDriver = require('better-sqlite3');
+} catch (e) {}
+
 const path = require('path');
 const fs = require('fs');
 
@@ -13,7 +23,15 @@ if (!fs.existsSync(dbDir)) {
 
 class SqliteDatabase {
   constructor(filePath) {
-    this.rawDb = new DatabaseSync(filePath);
+    if (NodeSqliteDriver) {
+      this.isNodeSqlite = true;
+      this.rawDb = new NodeSqliteDriver(filePath);
+    } else if (BetterSqliteDriver) {
+      this.isNodeSqlite = false;
+      this.rawDb = new BetterSqliteDriver(filePath);
+    } else {
+      throw new Error('No SQLite driver available: please run on Node >= 22 or install better-sqlite3');
+    }
   }
 
   prepare(sql) {
@@ -25,6 +43,13 @@ class SqliteDatabase {
   }
 
   pragma(str) {
+    if (!this.isNodeSqlite && typeof this.rawDb.pragma === 'function') {
+      try {
+        return this.rawDb.pragma(str);
+      } catch {
+        return null;
+      }
+    }
     try {
       return this.rawDb.exec('PRAGMA ' + str + ';');
     } catch {
@@ -33,6 +58,9 @@ class SqliteDatabase {
   }
 
   transaction(fn) {
+    if (!this.isNodeSqlite && typeof this.rawDb.transaction === 'function') {
+      return this.rawDb.transaction(fn);
+    }
     const self = this;
     return function(...args) {
       self.rawDb.exec('BEGIN IMMEDIATE;');

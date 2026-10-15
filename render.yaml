@@ -1,10 +1,12 @@
 services:
   - type: web
     name: smart-shop
-    env: node
+    runtime: node
     plan: free
-    buildCommand: npm install && cd client && npm install && npm run build
+    region: oregon
+    buildCommand: npm install && npm run build
     startCommand: node server/index.js
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,7 +16,3 @@ services:
         generateValue: true
       - key: TIMEZONE
         value: Asia/Kolkata
-    disk:
-      name: smartshop-data
-      mountPath: /var/data
-      sizeGB: 1

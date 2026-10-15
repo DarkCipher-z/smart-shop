@@ -62,17 +62,28 @@ docker-compose up -d --build
 ```
 Your application will be live at `http://your-server-ip:3001` with persistent volume storage for the SQLite database.
 
-### 3. Deploy Live on Cloud Platforms (Render / Railway)
+### 1-Click Deploy to Render
 
-1. Connect your GitHub repository to **Render** or **Railway**.
-2. Select **Web Service** with Node.js runtime.
-3. Configure the build and start commands:
-   - **Build Command:** `npm install && cd client && npm install && npm run build`
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/DarkCipher-z/smart-shop)
+
+Click the button above or open this URL directly in your browser:
+👉 **[https://render.com/deploy?repo=https://github.com/DarkCipher-z/smart-shop](https://render.com/deploy?repo=https://github.com/DarkCipher-z/smart-shop)**
+
+Render will automatically parse `render.yaml`, configure the Web Service, install dependencies, compile the production React bundle, and start your multi-tenant shop with persistent SQLite and SSL!
+
+### Manual Render Setup (If preferred)
+1. In [Render Dashboard](https://dashboard.render.com/), click **New +** > **Web Service**.
+2. Select **DarkCipher-z/smart-shop** from your connected GitHub repos.
+3. Configure the service:
+   - **Environment:** `Node`
+   - **Build Command:** `npm install && npm run build`
    - **Start Command:** `node server/index.js`
-4. Set Environment Variables in your cloud dashboard:
+   - **Plan:** `Free`
+4. Set Environment Variables:
    - `NODE_ENV` = `production`
-   - `PORT` = `3001`
-   - `JWT_SECRET` = `<your-secure-random-secret>`
+   - `PORT` = `10000`
+   - `JWT_SECRET` = `(click generate or provide 32+ character key)`
+   - `TIMEZONE` = `Asia/Kolkata`
    - `DATABASE_PATH` = `/var/data/smartshop.db` (or mount a persistent disk)
    - `INITIAL_SEED_PASSWORD` = `<your-custom-seed-password>`
 
