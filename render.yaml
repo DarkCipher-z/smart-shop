@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: smart-shop
+    env: node
+    plan: free
+    buildCommand: npm install && cd client && npm install && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: TIMEZONE
+        value: Asia/Kolkata
+    disk:
+      name: smartshop-data
+      mountPath: /var/data
+      sizeGB: 1

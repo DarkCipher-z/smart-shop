@@ -8,9 +8,10 @@ A modern, production-ready, multi-tenant online web application built for local 
 
 | Component | URL | Notes |
 | :--- | :--- | :--- |
-| **Frontend Web Portal** | [http://localhost:5173](http://localhost:5173) | Vite development server with `/api` reverse proxy |
-| **Production Server** | [http://localhost:3001](http://localhost:3001) | Express API + SPA production static server |
-| **API Health Check** | [http://localhost:3001/api/health](http://localhost:3001/api/health) | Status check with system uptime and `Asia/Kolkata` timezone |
+| **Live Internet Web App (HTTPS)** | **[https://b1fd85021e8278.lhr.life](https://b1fd85021e8278.lhr.life)** | Public HTTPS live deployment with full TLS termination |
+| **Frontend Web Portal (Local)** | [http://localhost:5173](http://localhost:5173) | Vite development server with `/api` reverse proxy |
+| **Production Server (Local)** | [http://localhost:3001](http://localhost:3001) | Express API + SPA production static server |
+| **API Health Check** | [https://b1fd85021e8278.lhr.life/api/health](https://b1fd85021e8278.lhr.life/api/health) | Status check with system uptime and `Asia/Kolkata` timezone |
 
 ---
 
