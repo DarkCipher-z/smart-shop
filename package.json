@@ -5,11 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node server/index.js",
+    "server": "node --experimental-sqlite server/index.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm install --include=dev && npm run build",
-    "seed": "node server/seed.js",
-    "start": "node server/index.js"
+    "seed": "node --experimental-sqlite server/seed.js",
+    "start": "node --experimental-sqlite server/index.js"
   },
   "engines": {
     "node": "22.x"

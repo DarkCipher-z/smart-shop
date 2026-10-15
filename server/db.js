@@ -3,8 +3,20 @@ let NodeSqliteDriver = null;
 let BetterSqliteDriver = null;
 
 try {
-  NodeSqliteDriver = require('node:sqlite').DatabaseSync;
-} catch (e) {}
+  const sqlite = require('node:sqlite');
+  if (sqlite && sqlite.DatabaseSync) {
+    NodeSqliteDriver = sqlite.DatabaseSync;
+  }
+} catch (e) {
+  try {
+    if (typeof process.getBuiltinModule === 'function') {
+      const sqlite = process.getBuiltinModule('node:sqlite');
+      if (sqlite && sqlite.DatabaseSync) {
+        NodeSqliteDriver = sqlite.DatabaseSync;
+      }
+    }
+  } catch (err) {}
+}
 
 try {
   BetterSqliteDriver = require('better-sqlite3');

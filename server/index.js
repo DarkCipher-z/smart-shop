@@ -1,4 +1,18 @@
 // server/index.js
+// Ensure node:sqlite is available (Node 22 requires --experimental-sqlite)
+try {
+  require('node:sqlite');
+} catch (e) {
+  if (!process.env._REEXEC_SQLITE) {
+    const { spawnSync } = require('child_process');
+    const result = spawnSync(process.execPath, ['--experimental-sqlite', ...process.argv.slice(1)], {
+      stdio: 'inherit',
+      env: { ...process.env, _REEXEC_SQLITE: '1' }
+    });
+    process.exit(result.status || 0);
+  }
+}
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
